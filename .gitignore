@@ -1,0 +1,9 @@
+*
+!.gitignore
+!.github/
+!.github/workflows/
+!.github/workflows/*
+!src/
+!src/hello.c
+!Dockerfile
+!README.md
