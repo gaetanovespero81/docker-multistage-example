@@ -1,0 +1,37 @@
+name: Docker CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Build the Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t multi-stage-example .
+
+      # Run the Docker container to verify output
+      - name: Test container output
+        run: |
+          output=$(docker run --rm multi-stage-example)
+          echo "Container output: $output"
+
+          # Expected output check
+          if [[ "$output" != "Hello from multi-stage Docker build on Debian!" ]]; then
+            echo "Unexpected program output!"
+            exit 1
+          fi
+
+      # Success message
+      - name: Done
+        run: echo "CI pipeline completed successfully!"
